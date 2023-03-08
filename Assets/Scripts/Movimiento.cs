@@ -15,6 +15,8 @@ public class Movimiento : MonoBehaviour
     // va a haber situaciones en donde deba accedr a otro componente
     // voy a necesitar una referencia
     private Transform _transform;
+    private IEnumerator _ienumeratorCorrutina;
+    private Coroutine _corrutina;
 
     [SerializeField]
     private float _speed = 10;
@@ -49,6 +51,10 @@ public class Movimiento : MonoBehaviour
         Assert.IsNotNull(_transform, "ES NECESARIO PARA MOVIMIENTO TENER UN TRANSFORM");
         Assert.IsNotNull(_disparoOriginal, "DISPARO NO PUEDE SER NULO");
         Assert.AreNotEqual(0, _speed, "VELOCIDAD DEBE SER MAYOR A 0");
+
+        StartCoroutine(CorrutinaDummy());
+        //StartCoroutine(DisparoRecurrente());
+        _ienumeratorCorrutina = DisparoRecurrente();
     }
 
     // Update is called once per frame
@@ -129,19 +135,26 @@ public class Movimiento : MonoBehaviour
         );
 
         // se pueden usar ejes como botones
-        if(Input.GetButtonDown("Jump")){
-            print("JUMP");
+        if(Input.GetButtonDown("Jump"))
+        {
+            // print("JUMP");
             
-            // se pueden hacer game objects vacíos
-            // GameObject objeto = new GameObject();
+            // para detener una corrutina hay que tener referencia a ella en la construccion
+            
+            // método 1 - EL FEO
+            // usando strings
+            //StartCoroutine("DisparoRecurrente");
+            
+            // método 2 - con un IEnumerator
+            StartCoroutine(_ienumeratorCorrutina);
+        }
 
-            // si queremos un game object predefinido para clonar
-            // usamos instantiate
-            Instantiate(
-                _disparoOriginal, 
-                transform.position, 
-                transform.rotation
-            );
+        if(Input.GetButtonUp("Jump"))
+        {
+            //StopAllCoroutines();
+
+            //StopCoroutine("DisparoRecurrente");
+            StopCoroutine(_ienumeratorCorrutina);
         }
     }
 
@@ -162,4 +175,42 @@ public class Movimiento : MonoBehaviour
 
     // CÓDIGO MUY ÚTIL
     // HOLA ESTOY EN EL REPO!
+
+    // CORRUTINAS 
+    // cuando tenemos la necesidad de hacer código "concurrente" vamos a utilizar corrutinas
+    // se comportan como hilos (pero no son)
+
+    // CASO DE USO 1 - CUANDO QUEREMOS CORRER ALGO CON UN RETRASO
+    // también pueden usar invoke pero se recomienda corrutina
+    IEnumerator CorrutinaDummy()
+    {
+
+        yield return new WaitForSeconds(2);
+        
+        print("HOLA");
+    }
+
+    // CASO DE USO 2 - LÓGICA RECURRENTE
+    IEnumerator DisparoRecurrente()
+    {
+        while(true)
+        {
+            // se pueden hacer game objects vacíos
+            // GameObject objeto = new GameObject();
+
+            // si queremos un game object predefinido para clonar
+            // usamos instantiate
+            Instantiate(
+                _disparoOriginal, 
+                transform.position, 
+                transform.rotation
+            );
+
+            yield return new WaitForSeconds(0.3f);
+            
+        }
+    }
+
+
+    // CASO DE USO 3 (no mostrado) - al esperar respuesta de código asíncrono (async / await)
 }

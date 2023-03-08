@@ -38,6 +38,8 @@ public class Proyectil : MonoBehaviour
         _gui = GUIManager.Instance;
         //_gui.Dummy1 = 1;
         Assert.IsNotNull(_gui, "GUIManager nulo, verificar que tengas uno en escena");
+
+        
     }
 
     // Update is called once per frame
@@ -67,32 +69,34 @@ public class Proyectil : MonoBehaviour
         // cómo saber qué hacer 
         // 1. filtrar por tag
         // 2. filtrar por layer
-        print("ENTER " + c.transform.name);
+        //print("ENTER " + c.transform.name);
     }
 
     void OnCollisionStay(Collision c) 
     {
-        print("STAY");
+        //print("STAY");
     }
 
     void OnCollisionExit(Collision c) 
     {
-        print("EXIT");
+        //print("EXIT");
     }
 
     void OnTriggerEnter(Collider c)
     {
-        print("TRIGGER ENTER");
+        //print("TRIGGER ENTER");
     }
 
     void OnTriggerStay(Collider c)
     {
-        print("TRIGGER STAY");
+        //print("TRIGGER STAY");
     }
 
     void OnTriggerExit(Collider c)
     {
-        print("TRIGGER EXIT");
+        //print("TRIGGER EXIT");
         _gui._texto.text = "SALI " + transform.name;
     }
+
+    
 }
