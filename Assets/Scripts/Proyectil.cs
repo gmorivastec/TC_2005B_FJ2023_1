@@ -28,11 +28,16 @@ public class Proyectil : MonoBehaviour
         Destroy(gameObject, _tiempoDeAutodestruccion);
 
         // NOTA- ESTO VA A CAMBIAR
+        /*
         GameObject guiGO = GameObject.Find("GUIManager");
         Assert.IsNotNull(guiGO, "no hay GUIManager");
 
         _gui = guiGO.GetComponent<GUIManager>();
         Assert.IsNotNull(_gui, "GUIManager no tiene componente");
+*/
+        _gui = GUIManager.Instance;
+        //_gui.Dummy1 = 1;
+        Assert.IsNotNull(_gui, "GUIManager nulo, verificar que tengas uno en escena");
     }
 
     // Update is called once per frame
