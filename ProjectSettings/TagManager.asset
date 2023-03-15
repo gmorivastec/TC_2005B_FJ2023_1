@@ -3,12 +3,13 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Ladrillos
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Ladrillos
   - Water
   - UI
   - 
